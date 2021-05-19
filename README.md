@@ -1,2 +1,2 @@
-# RKSV
-Documents and examples for A-Trust's Registrierkassensicherheitsverordnung (RKSV) solution
+# Registrierkassensicherheitsverordnung (RKSV)
+A-Tust offers two different products for the cash register sector. As an offline variant a.sign RK CHIP which consists of a chip card. For online use, a.sign RK HSM (formerly a.sign RK Online) is offered.

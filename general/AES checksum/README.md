@@ -1,0 +1,2 @@
+# cash register AES key checksum
+This example holds the source for a .NET implementation for checksum calculation of the AES key. This example is based on the descriptions under Specifications of the BMF on [detailed questions of the Registrierkassensicherheitsverordnung (RKSV) V1.2](https://github.com/a-sit-plus/at-registrierkassen-mustercode/releases/download/1.2-DOK/2016-09-05-Detailfragen-RKSV-V1.2.pdf) Chapter 6.
