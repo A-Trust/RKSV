@@ -20,7 +20,11 @@ public abstract class AbstractCashRegisterSmartCard implements ICashRegisterSmar
 	protected void executeSelectWithFileIdAPDU(byte[] fileID) throws SmardCardException {
 
 		CommandAPDU select = new CommandAPDU(0x00, 0xA4, 0x00, 0x0C, fileID);
-		executeCommand(select);
+		ResponseAPDU res = executeCommand(select);
+		if(res.getSW() != 0x9000) {
+			throw new SmardCardException("Bad status " + res.getSW());	
+		}
+		
 	}
 
 	protected ResponseAPDU selectWithAppliactionId(byte[] appliactionId) throws SmardCardException {

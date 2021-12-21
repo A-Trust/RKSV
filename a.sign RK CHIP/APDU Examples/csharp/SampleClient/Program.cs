@@ -1,41 +1,48 @@
 ﻿using System;
 using PCSC;
-using PCSC.Iso7816;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using System.Text;
 using System.Diagnostics;
 using Cashregister.Smartcard;
 
-namespace SampleClient {
+namespace SampleClient
+{
 
-    class Program {
+    class Program
+    {
 
-        private static void Main() {
+        private static void Main()
+        {
 
-            using (var context = new SCardContext()) {
-                String readerName = getReaderName(context);
-                if (readerName == null) {
+            using (SCardContext context = new SCardContext())
+            {
+                String readerName = GetReaderName(context);
+                if (readerName == null)
+                {
                     return;
                 }
-                using (IsoReader isoReader = new IsoReader(context, readerName, SCardShareMode.Shared, SCardProtocol.Any, false)) {
-                    testSmartcard(isoReader);
-                }
+                TestSmartcard(context, readerName);
                 context.Release();
             }
+            Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
 
-        private static void testSmartcard(IsoReader isoReader) {
-            ICashRegisterSmartCard smartCard = CashRegisterSmartCardFactory.createInstance(isoReader);
-            string cin = smartCard.readCIN();
+        private static void TestSmartcard(SCardContext context, string readerName)
+        {
+            ICashRegisterSmartCard smartCard = CashRegisterSmartCardFactory.CreateInstance(context, readerName);
+            string cin = smartCard.ReadCIN();
             Console.WriteLine("CIN:  " + cin);
-            String certificateSerialDecimal = smartCard.readCertificateSerialDecimal();
-            String certificateSerialHex = smartCard.readCertificateSerialHex();
+            String certificateSerialDecimal = smartCard.ReadCertificateSerialDecimal();
+            String certificateSerialHex = smartCard.ReadCertificateSerialHex();
             Console.WriteLine("Certificate serial in dec " + certificateSerialDecimal + " (0x" + certificateSerialHex + ")");
 
-            X509Certificate2 cert = smartCard.readCertificate();
-            Console.WriteLine("Reading the certificate successful");
+            X509Certificate2 cert = smartCard.ReadCertificate();
+            if(cert != null)
+            {
+                Console.WriteLine("Reading the certificate successful");
+            }
 
             string textString = "Das ist ein Beispieltext der anstelle eines Registrierkasseneintrags signiert wird... ";
             byte[] text = Encoding.UTF8.GetBytes(textString);
@@ -48,32 +55,36 @@ namespace SampleClient {
             String pin = "123456";
 
             byte[] signature = null;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 10; i++)
+            {
                 Stopwatch sw = new Stopwatch();
                 sw.Restart();
-                signature = smartCard.sign(pin, hash);
+                signature = smartCard.Sign(pin, hash);
                 sw.Stop();
                 Console.WriteLine("time taken for signature with selection:  " + sw.ElapsedMilliseconds + " ms");
             }
 
-            smartCard.prepareSignature();
-            for (int i = 0; i < 10; i++) {
+            smartCard.PrepareSignature();
+            for (int i = 0; i < 10; i++)
+            {
                 Stopwatch sw = new Stopwatch();
                 sw.Restart();
-                signature = smartCard.signWithoutSelection(pin, hash);
+                signature = smartCard.SignWithoutSelection(pin, hash);
                 sw.Stop();
                 Console.WriteLine("time taken for signature without selection:  " + sw.ElapsedMilliseconds + " ms");
             }
             string s3 = Convert.ToBase64String(signature);
             Console.WriteLine("Signature:  " + s3);
-            bool bOK = smartCard.verify(signature, text);
+            bool bOK = smartCard.Verify(signature, text);
             Console.WriteLine("Verified: " + bOK);
         }
 
-        private static String getReaderName(SCardContext context) {
+        private static String GetReaderName(SCardContext context)
+        {
             context.Establish(SCardScope.System);
             var readerNames = context.GetReaders();
-            if (readerNames == null || readerNames.Length < 1) {
+            if (readerNames == null || readerNames.Length < 1)
+            {
                 Console.WriteLine("You need at least one reader in order to run this example.");
                 Console.ReadKey();
                 return null;
@@ -82,15 +93,17 @@ namespace SampleClient {
             return readerName;
         }
 
-        private static string ChooseReader(string[] readerNames) {
+        private static string ChooseReader(string[] readerNames)
+        {
             Console.WriteLine("Available readers: ");
-            for (var i = 0; i < readerNames.Length; i++) {
+            for (var i = 0; i < readerNames.Length; i++)
+            {
                 Console.WriteLine("[" + i + "] " + readerNames[i]);
             }
             Console.Write("Which reader should be used? ");
             var line = Console.ReadLine();
-            int choice;
-            if (int.TryParse(line, out choice) && (choice >= 0) && (choice <= readerNames.Length)) {
+            if (int.TryParse(line, out int choice) && (choice >= 0) && (choice <= readerNames.Length))
+            {
                 return readerNames[choice];
             }
             Console.WriteLine("An invalid number has been entered.");

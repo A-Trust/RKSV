@@ -20,6 +20,12 @@ public class CashRegisterSmartCardFactory {
 			toReturn = new SmartCardCardOS(card);
 		} else if (atrHex.startsWith("3BDF18008131FE588031905241016405C903AC73B7B1D444")) {
 			toReturn = new SmartCardCardOS(card);
+		} else if (atrHex.startsWith("3BDF96FF910131FE4680319052410264050200AC73D622C017")) {
+			toReturn = new SmartCardAcosID(card);
+		} else if (atrHex.startsWith("3BDF18FF910131FE4680319052410264050200AC73D622C099")) {
+			toReturn = new SmartCardAcosID(card);
+		} else if (atrHex.startsWith("3BDF97008131FE4680319052410364050201AC73D622C0F8")) {
+			toReturn = new SmartCardAcosID(card);
 		} else {
 			throw new SmardCardException("Wrong card");
 		}

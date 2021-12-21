@@ -33,9 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="pcsc-sharp, Version=3.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PCSC.3.4.1\lib\net40\pcsc-sharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PCSC, Version=5.0.0.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.5.0.0\lib\net40\PCSC.dll</HintPath>
+    </Reference>
+    <Reference Include="PCSC.Iso7816, Version=5.0.0.0, Culture=neutral, PublicKeyToken=13b76e54a2ee80a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCSC.Iso7816.5.0.0\lib\net40\PCSC.Iso7816.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +53,7 @@
     <Compile Include="AbstractCashRegisterSmardCard.cs" />
     <Compile Include="SmardCard_ACOS.cs" />
     <Compile Include="CashRegisterSmartCardFactory.cs" />
+    <Compile Include="SmartCard_AcosID.cs" />
     <Compile Include="SmartCard_CardOS_5.3.cs" />
     <Compile Include="CashRegisterUtil.cs" />
     <Compile Include="ICashRegisterSmartCard.cs" />
