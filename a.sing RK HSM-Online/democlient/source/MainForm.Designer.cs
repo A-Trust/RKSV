@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.tbURL = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -83,6 +82,16 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tbPwd = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.button18 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbURL = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -99,16 +108,6 @@
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "URL: ";
-            // 
-            // tbURL
-            // 
-            this.tbURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbURL.Location = new System.Drawing.Point(99, 12);
-            this.tbURL.Name = "tbURL";
-            this.tbURL.Size = new System.Drawing.Size(654, 20);
-            this.tbURL.TabIndex = 1;
-            this.tbURL.Text = "https://hs-abnahme.a-trust.at/RegistrierkasseMobile/v2";
             // 
             // button1
             // 
@@ -132,11 +131,12 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 91);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(741, 203);
+            this.tabControl1.Size = new System.Drawing.Size(741, 216);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button18);
             this.tabPage1.Controls.Add(this.button13);
             this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Controls.Add(this.button5);
@@ -164,7 +164,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(142, 64);
+            this.button6.Location = new System.Drawing.Point(142, 91);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(130, 23);
             this.button6.TabIndex = 11;
@@ -330,6 +330,14 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button22);
+            this.tabPage2.Controls.Add(this.button21);
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.button20);
+            this.tabPage2.Controls.Add(this.button19);
+            this.tabPage2.Controls.Add(this.comboBox1);
+            this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.tbpartneruser);
             this.tabPage2.Controls.Add(this.button12);
             this.tabPage2.Controls.Add(this.label6);
@@ -338,7 +346,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(733, 177);
+            this.tabPage2.Size = new System.Drawing.Size(733, 190);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Partner Befehle";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -355,7 +363,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(9, 72);
+            this.button12.Location = new System.Drawing.Point(9, 94);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(130, 23);
             this.button12.TabIndex = 11;
@@ -613,12 +621,12 @@
             this.tbResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbResult.Location = new System.Drawing.Point(12, 300);
+            this.tbResult.Location = new System.Drawing.Point(12, 313);
             this.tbResult.Multiline = true;
             this.tbResult.Name = "tbResult";
             this.tbResult.ReadOnly = true;
             this.tbResult.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbResult.Size = new System.Drawing.Size(741, 243);
+            this.tbResult.Size = new System.Drawing.Size(741, 230);
             this.tbResult.TabIndex = 8;
             // 
             // tbUser
@@ -659,18 +667,121 @@
             this.label10.TabIndex = 39;
             this.label10.Text = "Passwort:";
             // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(142, 62);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(130, 23);
+            this.button18.TabIndex = 23;
+            this.button18.Text = "Zertifkate (inkl. History)";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "a.sign RK Online",
+            "a.sign RK HSM Basic",
+            "a.sign RK HSM Advanced",
+            "a.sign RK HSM Premium"});
+            this.comboBox1.Location = new System.Drawing.Point(130, 58);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(590, 21);
+            this.comboBox1.TabIndex = 21;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Produkt Version:";
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(281, 94);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(130, 23);
+            this.button20.TabIndex = 23;
+            this.button20.Text = "Credits lesen";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(145, 94);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(130, 23);
+            this.button19.TabIndex = 22;
+            this.button19.Text = "Kontenliste";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(266, 149);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(251, 23);
+            this.button22.TabIndex = 27;
+            this.button22.Text = "Neues Zertifikate (nur für extended Service )";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
+            // 
+            // button21
+            // 
+            this.button21.Location = new System.Drawing.Point(9, 149);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(251, 23);
+            this.button21.TabIndex = 26;
+            this.button21.Text = "Extend Service (nur im letzten Jahr Laufzeit)";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(190, 123);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(530, 20);
+            this.textBox1.TabIndex = 25;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 126);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(178, 13);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "Benutzername (Endbenutzer Konto):";
+            // 
+            // tbURL
+            // 
+            this.tbURL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tbURL.FormattingEnabled = true;
+            this.tbURL.Items.AddRange(new object[] {
+            "https://hs-abnahme.a-trust.at/RegistrierkasseMobile/v2",
+            "https://rksv.a-trust.at/asignRKOnline/v2"});
+            this.tbURL.Location = new System.Drawing.Point(99, 12);
+            this.tbURL.Name = "tbURL";
+            this.tbURL.Size = new System.Drawing.Size(650, 21);
+            this.tbURL.TabIndex = 41;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 555);
+            this.Controls.Add(this.tbURL);
             this.Controls.Add(this.tbUser);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tbPwd);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tbResult);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.tbURL);
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
             this.Text = "A-Trust Registrierkasse Mobile - Demo Client";
@@ -692,7 +803,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbURL;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -746,6 +856,16 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbPwd;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox tbURL;
     }
 }
 
