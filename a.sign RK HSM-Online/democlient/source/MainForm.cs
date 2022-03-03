@@ -40,7 +40,6 @@ namespace DemoClient
 
             tbUser.Text = ConfigurationManager.AppSettings["username"].ToString();
             tbPwd.Text = ConfigurationManager.AppSettings["password"].ToString();
-            tbURL.Text = ConfigurationManager.AppSettings["url"].ToString();
 
             tbpartneruser.Text = ConfigurationManager.AppSettings["partner_username"].ToString();
             tbpartnerpwd.Text = ConfigurationManager.AppSettings["partner_password"].ToString();
@@ -897,5 +896,6 @@ namespace DemoClient
                 tbResult.Text += "\r\nFAILED " + exception;
             }
         }
+
     }
 }
