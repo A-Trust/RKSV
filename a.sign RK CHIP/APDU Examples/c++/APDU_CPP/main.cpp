@@ -5,14 +5,31 @@
 #pragma comment(lib, "winscard.lib")
 
 
+
+const unsigned char ACOSID_ATR_V2_COLD[] = { 0x3B, 0xDF, 0x96, 0xFF, 0x91, 0x01, 0x31, 0xFE, 0x46, 0x80, 0x31, 0x90, 0x52, 0x41, 0x02, 0x64, 0x05, 0x02, 0x00, 0xAC, 0x73, 0xD6, 0x22, 0xC0, 0x17 };
+const unsigned char ACOSID_ATR_V2_WARM[] = { 0x3B, 0xDF, 0x18, 0xFF, 0x91, 0x01, 0x31, 0xFE, 0x46, 0x80, 0x31, 0x90, 0x52, 0x41, 0x02, 0x64, 0x05, 0x02, 0x00, 0xAC, 0x73, 0xD6, 0x22, 0xC0, 0x99 };
+const unsigned char ACOSID_ATR_V3[] = { 0x3B, 0xDF, 0x97, 0x00, 0x81, 0x31, 0xFE, 0x46, 0x80, 0x31, 0x90, 0x52, 0x41, 0x03, 0x64, 0x05, 0x02, 0x01, 0xAC, 0x73, 0xD6, 0x22, 0xC0, 0xF8 };
+// ATRs for earlier test cards
+const unsigned char ACOSID_ATR_TEST0[] = { 0x3B,0xDF,0x97,0x00,0x81,0x31,0xFE,0x46,0x80,0x31,0x90,0x52,0x41,0x02,0x64,0x05,0xC9,0x03,0xAC,0x73,0xD6,0x22,0xC0,0x30 };
+const unsigned char ACOSID_ATR_TEST1[] = { 0x3B,0xDF,0x18,0xFF,0x91,0x81,0x31,0xFE,0x46,0x80,0x31,0x90,0x52,0x41,0x02,0x64,0x05,0xC9,0x03,0xAC,0x73,0xD6,0x22,0xC0,0xD1 };
+
+
+// Older card types
+const unsigned char CARDOS_53_ATR[] = { 0x3b, 0xdf, 0x18, 0x00, 0x81, 0x31, 0xfe, 0x58, 0x80, 0x31, 0x90, 0x52, 0x41, 0x01, 0x64, 0x05, 0xc9, 0x03, 0xac, 0x73, 0xb7, 0xb1, 0xd4, 0x44 };
 const unsigned char ACOS_04_ATR_1[] = { 0x3B, 0xBF, 0x13, 0x00, 0x81, 0x31, 0xFE, 0x45, 0x45, 0x50, 0x41 };
 const unsigned char ACOS_04_ATR_2[] = { 0x3B, 0xBF, 0x11, 0x00, 0x81, 0x31, 0xFE, 0x45, 0x45, 0x50, 0x41 };
-const unsigned char CARDOS_53_ATR[] = { 0x3b, 0xdf, 0x18, 0x00, 0x81, 0x31, 0xfe, 0x58, 0x80, 0x31, 0x90, 0x52, 0x41, 0x01, 0x64, 0x05, 0xc9, 0x03, 0xac, 0x73, 0xb7, 0xb1, 0xd4, 0x44 };
 
-void ACOS_PerformeSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
-void ACOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
-void CARDOS_PerformeSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+
+
+void ACOSID_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+void ACOSID_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+
+void CARDOS_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
 void CARDOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+void ACOS_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+void ACOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard);
+
+
 bool CheckApduSW(BYTE *pbRecvBuffer, DWORD dwRecvLength, unsigned char sw1, unsigned char sw2);
 bool ReadFile(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard, std::vector<unsigned char> &buf);
 
@@ -51,23 +68,38 @@ int main(void)
 
 
 	if (
-		((sizeof(ACOS_04_ATR_1) <= atrsize) && (0 == memcmp(&atr, ACOS_04_ATR_1, sizeof(ACOS_04_ATR_1)))) ||
-		((sizeof(ACOS_04_ATR_2) <= atrsize) && (0 == memcmp(&atr, ACOS_04_ATR_2, sizeof(ACOS_04_ATR_2))))
+		((sizeof(ACOSID_ATR_V3) <= atrsize) && (0 == memcmp(&atr, ACOSID_ATR_V3, sizeof(ACOSID_ATR_V3)))) ||
+		((sizeof(ACOSID_ATR_V2_WARM) <= atrsize) && (0 == memcmp(&atr, ACOSID_ATR_V2_WARM, sizeof(ACOSID_ATR_V2_WARM)))) ||
+		((sizeof(ACOSID_ATR_V2_COLD) <= atrsize) && (0 == memcmp(&atr, ACOSID_ATR_V2_COLD, sizeof(ACOSID_ATR_V2_COLD)))) ||
+		((sizeof(ACOSID_ATR_TEST0) <= atrsize) && (0 == memcmp(&atr, ACOSID_ATR_TEST0, sizeof(ACOSID_ATR_TEST0)))) ||
+		((sizeof(ACOSID_ATR_TEST1) <= atrsize) && (0 == memcmp(&atr, ACOSID_ATR_TEST1, sizeof(ACOSID_ATR_TEST1)))) 
 		)
 	{
-		printf("Card: ACOS04\n\n");
+		printf("Card: ACOS-ID\n\n");
 
-		ACOS_PerformeSignature(pioSendPci, hCard);
-		ACOS_ReadCertificate(pioSendPci, hCard);
+		printf("sign data\n");
+		ACOSID_PerformSignature(pioSendPci, hCard);
+		ACOSID_ReadCertificate(pioSendPci, hCard);
 	}
 	else if ((sizeof(CARDOS_53_ATR) <= atrsize) && (0 == memcmp(&atr, CARDOS_53_ATR, sizeof(CARDOS_53_ATR))))
 	{
 		printf("Card: CARDOS\n\n");
 
 		printf("sign data\n");
-		CARDOS_PerformeSignature(pioSendPci, hCard);
+		CARDOS_PerformSignature(pioSendPci, hCard);
 		CARDOS_ReadCertificate(pioSendPci, hCard);
 	}
+	else if (
+		((sizeof(ACOS_04_ATR_1) <= atrsize) && (0 == memcmp(&atr, ACOS_04_ATR_1, sizeof(ACOS_04_ATR_1)))) ||
+		((sizeof(ACOS_04_ATR_2) <= atrsize) && (0 == memcmp(&atr, ACOS_04_ATR_2, sizeof(ACOS_04_ATR_2))))
+		)
+	{
+		printf("Card: ACOS04\n\n");
+
+		ACOS_PerformSignature(pioSendPci, hCard);
+		ACOS_ReadCertificate(pioSendPci, hCard);
+	}
+
 
 	rv = SCardDisconnect(hCard, SCARD_LEAVE_CARD);
 	delete[] mszReaders;
@@ -75,7 +107,130 @@ int main(void)
 	return 0;
 }
 
+void ACOSID_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
+{
+	BYTE pbRecvBuffer[258];
+	DWORD dwRecvLength;
+	LONG rv;
+	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
+	unsigned char cmd2[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xC0, 0x00 };
 
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
+
+	std::vector<unsigned char> certificate;
+	ReadFile(pioSendPci, hCard, certificate);
+
+	//FILE *fp = fopen("c:\\temp\\cert.cer", "wb");
+	//if (fp)
+	//{
+	//	fwrite(certificate.data(), 1, certificate.size(), fp);
+	//	fclose(fp); 
+	//}
+}
+
+
+void ACOSID_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
+{
+	BYTE pbRecvBuffer[258];
+	BYTE Hash[32 + 6];
+	DWORD dwRecvLength;
+
+	LONG rv;
+
+	Hash[0] = 0x00;
+	Hash[1] = 0x2A;
+	Hash[2] = 0x9E;
+	Hash[3] = 0x9A;
+	Hash[4] = 32;
+
+	for (int i = 0; i < 32; i++)
+		Hash[5 + i] = i;
+	Hash[37] = 0xFF;
+
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
+	unsigned char cmd2[] = { 0x00 , 0x20 , 0x00 , 0x8A , 0x08,  0x26, 0x12, 0x34, 0x56, 0xFF, 0xFF, 0xFF, 0xFF };
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&Hash, sizeof(Hash), NULL, pbRecvBuffer, &dwRecvLength);
+
+	std::vector<unsigned char> sig;
+	for (size_t i = 0; i < dwRecvLength - 2; i++)
+		sig.push_back(pbRecvBuffer[i]);
+}
+
+
+
+
+void CARDOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
+{
+	BYTE pbRecvBuffer[258];
+	DWORD dwRecvLength;
+	LONG rv;
+	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
+	unsigned char cmd2[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xC0, 0x00 };
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
+
+	std::vector<unsigned char> certificate;
+	ReadFile(pioSendPci, hCard, certificate);
+
+	//FILE *fp = fopen("c:\\temp\\cert.cer", "wb");
+	//if (fp)
+	//{
+	//	fwrite(certificate.data(), 1, certificate.size(), fp);
+	//	fclose(fp); 
+	//}
+}
+
+
+void CARDOS_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
+{
+	BYTE pbRecvBuffer[258];
+	BYTE Hash[32 + 6];
+	DWORD dwRecvLength;
+
+	LONG rv;
+
+	Hash[0] = 0x00;
+	Hash[1] = 0x2A;
+	Hash[2] = 0x9E;
+	Hash[3] = 0x9A;
+	Hash[4] = 32;
+
+	for (int i = 0; i < 32; i++)
+		Hash[5 + i] = i;
+	Hash[37] = 0xFF;
+
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
+	unsigned char cmd2[] = { 0x00 , 0x20 , 0x00 , 0x81 , 0x08,  0x26, 0x12, 0x34, 0x56, 0xFF, 0xFF, 0xFF, 0xFF };
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
+
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
+	dwRecvLength = sizeof(pbRecvBuffer);
+	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&Hash, sizeof(Hash), NULL, pbRecvBuffer, &dwRecvLength);
+
+	std::vector<unsigned char> sig;
+	for (size_t i = 0; i < dwRecvLength - 2; i++)
+		sig.push_back(pbRecvBuffer[i]);
+}
 
 void ACOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
 {
@@ -103,7 +258,7 @@ void ACOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
 
 
 
-void ACOS_PerformeSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
+void ACOS_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
 {
 	BYTE pbRecvBuffer[258];
 	BYTE Hash[32 + 5];
@@ -137,68 +292,6 @@ void ACOS_PerformeSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
 	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&Hash, sizeof(Hash), NULL, pbRecvBuffer, &dwRecvLength);
 	dwRecvLength = sizeof(pbRecvBuffer);
 	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd4, sizeof(cmd4), NULL, pbRecvBuffer, &dwRecvLength);
-
-	std::vector<unsigned char> sig;
-	for (size_t i = 0; i < dwRecvLength - 2; i++)
-		sig.push_back(pbRecvBuffer[i]);
-}
-
-
-void CARDOS_ReadCertificate(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
-{
-	BYTE pbRecvBuffer[258];
-	DWORD dwRecvLength;
-	LONG rv;
-	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
-	unsigned char cmd2[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xC0, 0x00 };
-
-	dwRecvLength = sizeof(pbRecvBuffer);
-	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
-	dwRecvLength = sizeof(pbRecvBuffer);
-	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
-
-	std::vector<unsigned char> certificate;
-	ReadFile(pioSendPci, hCard, certificate);
-
-	//FILE *fp = fopen("c:\\temp\\cert.cer", "wb");
-	//if (fp)
-	//{
-	//	fwrite(certificate.data(), 1, certificate.size(), fp);
-	//	fclose(fp); 
-	//}
-}
-
-
-void CARDOS_PerformeSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
-{
-	BYTE pbRecvBuffer[258];
-	BYTE Hash[32 + 6];
-	DWORD dwRecvLength;
-
-	LONG rv;
-
-	Hash[0] = 0x00;
-	Hash[1] = 0x2A;
-	Hash[2] = 0x9E;
-	Hash[3] = 0x9A;
-	Hash[4] = 32;
-
-	for (int i = 0; i < 32; i++)
-		Hash[5 + i] = i;
-	Hash[37] = 0xFF;
-
-
-	dwRecvLength = sizeof(pbRecvBuffer);
-	unsigned char cmd1[] = { 0x00 , 0xA4 , 0x00 , 0x0C, 0x02, 0xDF, 0x01 };
-	unsigned char cmd2[] = { 0x00 , 0x20 , 0x00 , 0x81 , 0x08,  0x26, 0x12, 0x34, 0x56, 0xFF, 0xFF, 0xFF, 0xFF };
-
-	dwRecvLength = sizeof(pbRecvBuffer);
-	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd1, sizeof(cmd1), NULL, pbRecvBuffer, &dwRecvLength);
-
-	dwRecvLength = sizeof(pbRecvBuffer);
-	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&cmd2, sizeof(cmd2), NULL, pbRecvBuffer, &dwRecvLength);
-	dwRecvLength = sizeof(pbRecvBuffer);
-	rv = SCardTransmit(hCard, &pioSendPci, (unsigned char*)&Hash, sizeof(Hash), NULL, pbRecvBuffer, &dwRecvLength);
 
 	std::vector<unsigned char> sig;
 	for (size_t i = 0; i < dwRecvLength - 2; i++)
