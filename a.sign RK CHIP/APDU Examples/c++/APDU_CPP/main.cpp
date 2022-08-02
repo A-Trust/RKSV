@@ -148,7 +148,7 @@ void ACOSID_PerformSignature(SCARD_IO_REQUEST pioSendPci, SCARDHANDLE hCard)
 
 	for (int i = 0; i < 32; i++)
 		Hash[5 + i] = i;
-	Hash[37] = 0xFF;
+	Hash[37] = 0x00;
 
 
 	dwRecvLength = sizeof(pbRecvBuffer);
