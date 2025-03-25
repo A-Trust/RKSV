@@ -8,6 +8,11 @@ import javax.smartcardio.Card;
  */
 public class CashRegisterSmartCardFactory {
 
+    private static final String ACOS_ID_V2_COLD = "3BDF96FF910131FE4680319052410264050200AC73D622C017";
+    private static final String ACOS_ID_V2_WARM = "3BDF18FF910131FE4680319052410264050200AC73D622C099";
+    private static final String ACOS_ID_V3 = "3BDF97008131FE4680319052410364050201AC73D622C0F8";
+    private static final String ACOS_ID_V4_1 = "3BDF97008131FE4680319052410464050401AC73D622C0F9";
+	
 	public static ICashRegisterSmartCard createInstance(Card card) throws SmardCardException {
 		ICashRegisterSmartCard toReturn;
 		ATR atr = card.getATR();
@@ -20,11 +25,13 @@ public class CashRegisterSmartCardFactory {
 			toReturn = new SmartCardCardOS(card);
 		} else if (atrHex.startsWith("3BDF18008131FE588031905241016405C903AC73B7B1D444")) {
 			toReturn = new SmartCardCardOS(card);
-		} else if (atrHex.startsWith("3BDF96FF910131FE4680319052410264050200AC73D622C017")) {
+		} else if (atrHex.startsWith(ACOS_ID_V2_COLD)) {
 			toReturn = new SmartCardAcosID(card);
-		} else if (atrHex.startsWith("3BDF18FF910131FE4680319052410264050200AC73D622C099")) {
+		} else if (atrHex.startsWith(ACOS_ID_V2_WARM)) {
 			toReturn = new SmartCardAcosID(card);
-		} else if (atrHex.startsWith("3BDF97008131FE4680319052410364050201AC73D622C0F8")) {
+		} else if (atrHex.startsWith(ACOS_ID_V3)) {
+			toReturn = new SmartCardAcosID(card);
+		} else if (atrHex.startsWith(ACOS_ID_V4_1)) {
 			toReturn = new SmartCardAcosID(card);
 		} else {
 			throw new SmardCardException("Wrong card");
