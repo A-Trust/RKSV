@@ -7,10 +7,12 @@
 
     public sealed class CashRegisterSmartCardFactory
     {
-        private const string ACOS_ID_V2_COLD = "3BDF96FF910131FE4680319052410264050200AC73D622C017";
-        private const string ACOS_ID_V2_WARM = "3BDF18FF910131FE4680319052410264050200AC73D622C099";
-        private const string ACOS_ID_V3 = "3BDF97008131FE4680319052410364050201AC73D622C0F8";
-        private const string ACOS_ID_V4_1 = "3BDF97008131FE4680319052410464050401AC73D622C0F9";
+        // Obsolete ATRs for cards not certified for use after 07.06.2025
+        private const string ACOSID_ATR_V2_COLD = "3BDF96FF910131FE4680319052410264050200AC73D622C017";
+        private const string ACOSID_ATR_V2_WARM = "3BDF18FF910131FE4680319052410264050200AC73D622C099";
+        private const string ACOSID_ATR_V3 = "3BDF97008131FE4680319052410364050201AC73D622C0F8";
+        // ATR for the newest ACOS card
+        private const string ACOSID_ATR_V4_1 = "3BDF97008131FE4680319052410464050401AC73D622C0F9";
 
         private CashRegisterSmartCardFactory()
         {
@@ -42,19 +44,19 @@
             {
                 cardInstance = new SmartCard_CardOS_5_3(isoReader);
             }
-            else if (atrHex.StartsWith(ACOS_ID_V2_COLD))
+            else if (atrHex.StartsWith(ACOSID_ATR_V2_COLD))
             {
                 cardInstance = new SmartCard_AcosID(isoReader);
             }
-            else if (atrHex.StartsWith(ACOS_ID_V2_WARM))
+            else if (atrHex.StartsWith(ACOSID_ATR_V2_WARM))
             {
                 cardInstance = new SmartCard_AcosID(isoReader);
             }
-            else if (atrHex.StartsWith(ACOS_ID_V3)) 
+            else if (atrHex.StartsWith(ACOSID_ATR_V3)) 
             {
                 cardInstance = new SmartCard_AcosID(isoReader);
             }
-            else if (atrHex.StartsWith(ACOS_ID_V4_1))
+            else if (atrHex.StartsWith(ACOSID_ATR_V4_1))
             {
                 cardInstance = new SmartCard_AcosID(isoReader);
             }
